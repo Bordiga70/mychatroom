@@ -1,0 +1,28 @@
+^C:\USERS\IMRAN\DOCUMENTS\PROGETTI\MYCHATROOM\BUILD\WINDOWS\X64\CMAKEFILES\10C64E89D5EADF6A75C80BD9CEC9C436\FLUTTER_WINDOWS.DLL.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E env FLUTTER_ROOT=C:\Users\Imran\Documents\develop\flutter PROJECT_DIR=C:\Users\Imran\Documents\progetti\mychatroom FLUTTER_ROOT=C:\Users\Imran\Documents\develop\flutter FLUTTER_EPHEMERAL_DIR=C:\Users\Imran\Documents\progetti\mychatroom\windows\flutter\ephemeral PROJECT_DIR=C:\Users\Imran\Documents\progetti\mychatroom FLUTTER_TARGET=C:\Users\Imran\Documents\progetti\mychatroom\lib\main.dart DART_DEFINES=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9WRVJTSU9OPTMuMzguNQ==,RkxVVFRFUl9DSEFOTkVMPXN0YWJsZQ==,RkxVVFRFUl9HSVRfVVJMPWh0dHBzOi8vZ2l0aHViLmNvbS9mbHV0dGVyL2ZsdXR0ZXIuZ2l0,RkxVVFRFUl9GUkFNRVdPUktfUkVWSVNJT049ZjZmZjE1MjlmZA==,RkxVVFRFUl9FTkdJTkVfUkVWSVNJT049MTUyN2FlMGVjNQ==,RkxVVFRFUl9EQVJUX1ZFUlNJT049My4xMC40 DART_OBFUSCATION=false TRACK_WIDGET_CREATION=true TREE_SHAKE_ICONS=false PACKAGE_CONFIG=C:\Users\Imran\Documents\progetti\mychatroom\.dart_tool\package_config.json C:/Users/Imran/Documents/develop/flutter/packages/flutter_tools/bin/tool_backend.bat windows-x64 Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\IMRAN\DOCUMENTS\PROGETTI\MYCHATROOM\BUILD\WINDOWS\X64\CMAKEFILES\0A45D566A86EFBE3D299B7510BFB26A0\FLUTTER_ASSEMBLE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\IMRAN\DOCUMENTS\PROGETTI\MYCHATROOM\WINDOWS\FLUTTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/Imran/Documents/progetti/mychatroom/windows -BC:/Users/Imran/Documents/progetti/mychatroom/build/windows/x64 --check-stamp-file C:/Users/Imran/Documents/progetti/mychatroom/build/windows/x64/flutter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
