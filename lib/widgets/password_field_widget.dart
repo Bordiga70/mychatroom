@@ -21,9 +21,15 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
         Expanded(
           child: TextFormField(
             obscureText: !_showPwd,
-            decoration: const InputDecoration(
-              hintText: 'password',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              hintText: "password",
+              prefixIcon: const Icon(Icons.password),
+              prefixIconColor: Colors.black,
             ),
             validator: RegisterValidators().validatePassword,
             controller: widget.passwordController,

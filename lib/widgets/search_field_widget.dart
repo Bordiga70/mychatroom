@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mychatroom/widgets/search_item_widget.dart';
 
 class SearchFieldWidget extends StatefulWidget {
   const SearchFieldWidget({super.key});
@@ -8,45 +9,82 @@ class SearchFieldWidget extends StatefulWidget {
 }
 
 class _SearchFieldWidgetState extends State<SearchFieldWidget> {
-  final List<String> myCoolStrings = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Some other item',
+  final List<String> _list = [
+    'person1',
+    'person2',
+    'person3',
+    'person4',
+    'person5',
+    'person6',
+    'person1',
+    'person2',
+    'person3',
+    'person4',
+    'person5',
+    'person6',
+    'person1',
+    'person2',
+    'person3',
+    'person4',
+    'person5',
+    'person6',
+    'person1',
+    'person2',
+    'person3',
+    'person4',
+    'person5',
+    'person6',
   ];
 
   final List<String> _results = [];
 
   void _handleSearch(String input) {
-    _results.clear();
-    for (var str in myCoolStrings) {
-      if (str.toLowerCase().contains(input.toLowerCase())) {
-        setState(() {
-          _results.add(str);
-        });
-      }
+    if (input.isEmpty) {
+      return;
     }
+
+    final results = _list
+        .where((str) => str.toLowerCase().contains(input.toLowerCase()))
+        .toList();
+
+    setState(() {
+      _results
+        ..clear()
+        ..addAll(results);
+    });
+
+    print(_results);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 45,
-      width: 360,
-      child: TextField(
-        onChanged: _handleSearch,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color(0xfff1f1f1),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none,
+    return Expanded(
+      child: Column(
+        children: [
+          TextField(
+            onChanged: _handleSearch,
+            decoration: InputDecoration(
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              hintText: "Search for User",
+              prefixIcon: const Icon(Icons.search),
+              prefixIconColor: Colors.black,
+            ),
           ),
-          hintText: "Search for Items",
-          prefixIcon: const Icon(Icons.search),
-          prefixIconColor: Colors.black,
-        ),
+          _results.isEmpty
+              ? const SizedBox()
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: _results.length,
+                    itemBuilder: (context, index) {
+                      return SearchItemWidget(title: _results[index]);
+                    },
+                  ),
+                ),
+        ],
       ),
     );
   }
