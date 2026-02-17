@@ -1,0 +1,11 @@
+# Flutter build outputs
+build/
+*.apk
+*.aab
+*.so
+*.dex
+
+# Android/Gradle specifics
+android/.gradle/
+android/local.properties
+android/gradlew*
