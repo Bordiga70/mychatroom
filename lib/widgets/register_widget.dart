@@ -25,10 +25,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
 
   @override
   void dispose() {
-    super.dispose();
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    super.dispose();
   }
 
   @override
