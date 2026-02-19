@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mychatroom/pages/login_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mychatroom/pages/main_page.dart';
+import 'package:mychatroom/services/database_service.dart';
+import 'package:mychatroom/services/preferences_service.dart';
 
+import 'auth_wrapper.dart';
 import 'data/notifiers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initSharedPreferences();
+  await PreferencesService().init();
+  await DatabaseService().init();
   runApp(const MyApp());
-}
-
-Future<void> initSharedPreferences() async {
-  final prefs = await SharedPreferences.getInstance();
-  isDarkNotifier.value = prefs.getBool('isDark') ?? false;
-  // TODO add support for font size
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +30,12 @@ class MyApp extends StatelessWidget {
               brightness: isDark ? Brightness.dark : Brightness.light,
             ),
           ),
-          home: LoginPage(),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const AuthWrapper(),
+            '/login': (context) => const LoginPage(),
+            '/home': (context) => const MainPage(),
+          },
         );
       },
     );

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../data/constants.dart';
+import '../data/notifiers.dart';
+import '../services/preferences_service.dart';
+
 class MessageWidget extends StatelessWidget {
   MessageWidget({
     super.key,
@@ -11,6 +15,26 @@ class MessageWidget extends StatelessWidget {
   final String from;
   final String at;
   final String message;
+
+  final PreferencesService _preferencesService = PreferencesService();
+
+  TextStyle getFontStyle(String name) {
+    late TextStyle style;
+
+    switch (name) {
+      case 'small':
+        style = KTextStyle.smallText;
+        break;
+      case 'default':
+        style = KTextStyle.defaultText;
+        break;
+      case 'big':
+        style = KTextStyle.bigText;
+        break;
+    }
+
+    return style;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +64,15 @@ class MessageWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(message, style: TextStyle(fontSize: 15)),
+              ValueListenableBuilder(
+                valueListenable: styleTextNotifier,
+                builder: (context, style, child) {
+                  return Text(
+                    message,
+                    style: getFontStyle(_preferencesService.getTextStyle),
+                  );
+                },
+              ),
             ],
           ),
         ),

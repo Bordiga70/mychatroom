@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mychatroom/services/preferences_service.dart';
 
 import '../data/notifiers.dart';
 
@@ -11,6 +11,8 @@ class DarkModeOptionWidget extends StatefulWidget {
 }
 
 class _DarkModeOptionWidgetState extends State<DarkModeOptionWidget> {
+  final PreferencesService _preferencesService = PreferencesService();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -24,8 +26,7 @@ class _DarkModeOptionWidgetState extends State<DarkModeOptionWidget> {
             Checkbox(
               value: isDarkNotifier.value,
               onChanged: (_) async {
-                final prefs = await SharedPreferences.getInstance();
-                prefs.setBool('isDark', !isDarkNotifier.value);
+                await _preferencesService.setDark(!isDarkNotifier.value);
                 setState(() {
                   isDarkNotifier.value = !isDarkNotifier.value;
                 });

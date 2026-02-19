@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mychatroom/models/user_model.dart';
+import 'package:mychatroom/services/database_service.dart';
 
-import '../helper/helper.dart';
-import '../models/user_model.dart';
 import '../utils/form_validators.dart';
 import '../utils/hashing.dart';
 import '../widgets/general_textformfield_widget.dart';
@@ -21,7 +21,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   bool _showPwd = false;
 
   @override
@@ -121,9 +120,20 @@ class _RegisterPageState extends State<RegisterPage> {
                     // should send the credentials to the server, which
                     // does password hashing, adds the user and sends back the
                     // credentials to the client, that get added to the local DB
-                    DatabaseHelper.addCredentials(
-                      await DatabaseHelper.init(),
-                      UserModel(id: null, usr: usr, email: email, pwd: pwd),
+                    UserModel user = UserModel(
+                      id: null,
+                      usr: usr,
+                      email: email,
+                      pwd: pwd,
+                    );
+
+                    DatabaseService().addCredentials(user);
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
                     );
                   }
                 },

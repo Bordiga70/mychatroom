@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../data/notifiers.dart';
 import '../pages/login_page.dart';
+import '../services/preferences_service.dart';
 
 class LogoutOptionWidget extends StatefulWidget {
   const LogoutOptionWidget({super.key});
@@ -10,6 +12,8 @@ class LogoutOptionWidget extends StatefulWidget {
 }
 
 class _LogoutOptionWidgetState extends State<LogoutOptionWidget> {
+  final PreferencesService _preferencesService = PreferencesService();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -18,11 +22,16 @@ class _LogoutOptionWidgetState extends State<LogoutOptionWidget> {
       child: Card(
         child: InkWell(
           onTap: () {
-            // TODO
-            // implement logout logic
-            Navigator.pushReplacement(
+            _preferencesService.clearUserPreferences();
+            isDarkNotifier.value = _preferencesService.isDark;
+            styleTextNotifier.value = _preferencesService.getTextStyle;
+
+            if (!mounted) return;
+
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const LoginPage()),
+              (route) => false,
             );
           },
           child: Center(child: Text('Logout')),

@@ -28,8 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text('Settings'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: [
             DarkModeOptionWidget(),
             SizedBox(height: 25),

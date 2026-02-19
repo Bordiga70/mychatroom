@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mychatroom/services/preferences_service.dart';
 import 'package:mychatroom/widgets/message_widget.dart';
+
+import '../models/message_model.dart';
+import '../services/database_service.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -10,6 +14,22 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
+  late List<MessageModel> _messages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initMessages();
+  }
+
+  Future<void> initMessages() async {
+    final messages = await DatabaseService().getMessages();
+    if (!mounted) return;
+
+    setState(() {
+      _messages = messages;
+    });
+  }
 
   @override
   void dispose() {
@@ -17,7 +37,23 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 
-  final List<MessageWidget> _test = [];
+  void sendMessage() {
+    if (_controller.text.isNotEmpty) {
+      setState(() {
+        // TODO should send the message to the server and add it to the local db
+        var message = (MessageModel(
+          from: PreferencesService().getCurrentSessionId,
+          to: 2,
+          message: _controller.text,
+          created_at: DateTime.now().toString().substring(0, 19),
+          id: null,
+        ));
+        _messages.add(message);
+        DatabaseService().addMessage(message);
+        _controller.clear();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,41 +69,45 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: _test.length,
+              itemCount: _messages.length,
               itemBuilder: (context, index) {
-                return _test[index];
+                return MessageWidget(
+                  from: 'username#${_messages[index].from}',
+                  at: _messages[index].created_at,
+                  message: _messages[index].message,
+                );
               },
             ),
           ),
           // TEXT FIELD
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                hintText: "chat",
-                prefixIconColor: Colors.black,
-              ),
-              controller: _controller,
-              onSubmitted: (value) {
-                if (_controller.text.isNotEmpty) {
-                  setState(() {
-                    // TODO should send the message to the server and add it to the local db
-                    _test.add(
-                      MessageWidget(
-                        from: 'username#id',
-                        at: DateTime.now().toString().substring(0, 19),
-                        message: _controller.text,
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
                       ),
-                    );
-                    _controller.clear();
-                  });
-                }
-              },
+                      hintText: "send a message",
+                      prefixIconColor: Colors.black,
+                    ),
+                    controller: _controller,
+                    onSubmitted: (value) {
+                      sendMessage();
+                    },
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    sendMessage();
+                  },
+                  icon: Icon(Icons.send),
+                ),
+              ],
             ),
           ),
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../data/constants.dart';
 import '../data/notifiers.dart';
+import '../services/preferences_service.dart';
 
 class FontOptionWidget extends StatefulWidget {
   const FontOptionWidget({super.key});
@@ -11,7 +11,8 @@ class FontOptionWidget extends StatefulWidget {
 }
 
 class _FontOptionWidgetState extends State<FontOptionWidget> {
-  TextStyle? _menuItem = KTextStyle.defaultText;
+  final PreferencesService _preferencesService = PreferencesService();
+  late String _menuItem = _preferencesService.getTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +29,16 @@ class _FontOptionWidgetState extends State<FontOptionWidget> {
               value: _menuItem,
               autofocus: false,
               items: [
-                DropdownMenuItem(
-                  value: KTextStyle.smallText,
-                  child: Text('small'),
-                ),
-                DropdownMenuItem(
-                  value: KTextStyle.defaultText,
-                  child: Text('default'),
-                ),
-                DropdownMenuItem(value: KTextStyle.bigText, child: Text('big')),
+                DropdownMenuItem(value: 'small', child: Text('small')),
+                DropdownMenuItem(value: 'default', child: Text('default')),
+                DropdownMenuItem(value: 'big', child: Text('big')),
               ],
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
-                  _menuItem = value;
                   styleTextNotifier.value = value!;
+                  _menuItem = styleTextNotifier.value;
                 });
+                await _preferencesService.setStyle(styleTextNotifier.value);
               },
             ),
           ],
