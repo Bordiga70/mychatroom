@@ -14,12 +14,7 @@ class PreferencesService {
   }
 
   Future<void> clearUserPreferences() async {
-    setCurrentSessionUsr('');
-    setCurrentSessionEmail('');
-    setCurrentSessionPwd('');
-    setCurrentSessionId(0);
-    setDark(false);
-    setStyle('default');
+    await _prefs.clear();
   }
 
   bool get isDark => _prefs.getBool('isDark') ?? false;
